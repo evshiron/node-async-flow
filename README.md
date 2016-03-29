@@ -1,6 +1,6 @@
 # node-flow
 
-A utility function which enables async flow.
+A utility function which enables async flow using Generator/yield. Works best with `--harmony-destructuring` flag.
 
 ## Examples
 
