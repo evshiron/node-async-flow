@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/evshiron/node-flow/issues"
   },
-  "homepage": "https://github.com/evshiron/node-flow#readme"
+  "homepage": "https://github.com/evshiron/node-flow#readme",
+  "devDependencies": {
+    "request": "^2.69.0",
+    "tape": "^4.5.1"
+  }
 }
