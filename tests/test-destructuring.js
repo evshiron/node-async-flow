@@ -33,7 +33,7 @@ test('destructuring', (t) => {
 
 test('fs-destructuring', (t) => {
 
-    t.plan(1);
+    t.plan(2);
 
     Flow(function*(cb) {
 
@@ -49,6 +49,9 @@ test('fs-destructuring', (t) => {
             t.equal(exists, true);
 
         }
+
+        var [exists] = yield fs.exists(self, (exists) => cb(exists, undefined));
+        t.equal(exists, true);
 
     });
 
