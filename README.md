@@ -2,6 +2,12 @@
 
 A utility function which enables async flow using Generator/yield. Works best with `--harmony-destructuring` flag.
 
+## Installation
+
+```bash
+npm install evshiron/node-flow --save
+```
+
 ## Examples
 
 See [examples](./examples/).
@@ -32,3 +38,8 @@ now 1459252140658
 */
 
 ```
+
+## License
+
+MIT.
+
