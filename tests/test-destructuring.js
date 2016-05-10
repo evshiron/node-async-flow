@@ -1,57 +1,58 @@
 
-const fs = require('fs');
-
 const test = require('tape');
 
 const Flow = require('../');
 
-function Return(value, callback) {
-
-    setTimeout(() => callback(value), 0);
-
-}
+const getOneValue = (callback) => setTimeout(() => callback(true), 0);
+const getTwoValues = (callback) => setTimeout(() => callback(true, false), 0);
+const getThreeValues = (callback) => setTimeout(() => callback(true, false, null), 0);
 
 test('destructuring', (t) => {
 
-    t.plan(4);
-
     Flow(function*(cb) {
 
-        var x = yield Return('x', cb);
-        t.equal(x, 'x');
+        // Test cb.single.
 
-        var [y] = yield Return('y', cb);
-        t.equal(y, 'y');
+        t.deepEqual(yield getOneValue(cb.single), true);
 
-        var [xx, yy] = yield Return(['xx', 'yy'], cb);
-        t.equal(xx, 'xx');
-        t.equal(yy, 'yy');
+        var x = yield getOneValue(cb.single);
+        t.equal(x, true);
 
-    });
+        // Will not work.
+        //var [x] = yield giveOneValue(cb.single);
 
-});
+        // Test cb.expect(count).
 
-test('fs-destructuring', (t) => {
+        t.deepEqual(yield getOneValue(cb.expect(1)), [true]);
 
-    t.plan(2);
+        var [x] = yield getOneValue(cb.expect(1));
+        t.equal(x, true);
 
-    Flow(function*(cb) {
+        t.deepEqual(yield getTwoValues(cb.expect(1)), [true]);
 
-        const self = module.filename;
+        var [x, y] = yield getTwoValues(cb.expect(1));
+        t.equal(x, true);
+        t.equal(y, undefined);
 
-        var exists = yield fs.exists(self, cb);
-        t.equal(exists, true);
+        t.deepEqual(yield getTwoValues(cb.expect(2)), [true, false]);
 
-        if(false) {
+        var [x, y] = yield getTwoValues(cb.expect(2));
+        t.equal(x, true);
+        t.equal(y, false);
 
-            // Crashes.
-            var [exists] = yield fs.exists(self, cb);
-            t.equal(exists, true);
+        t.deepEqual(yield getThreeValues(cb.map('x', 'y', 'z')), { x: true, y: false, z: null });
 
-        }
+        var result = yield getThreeValues(cb.map('x', 'y', 'z'));
+        t.equal(result.x, true);
+        t.equal(result.y, false);
+        t.equal(result.z, null);
 
-        var [exists] = yield fs.exists(self, (exists) => cb(exists, undefined));
-        t.equal(exists, true);
+        var {z, y, x} = yield getThreeValues(cb.map('x', 'y', 'z'));
+        t.equal(x, true);
+        t.equal(y, false);
+        t.equal(z, null);
+
+        t.end();
 
     });
 
