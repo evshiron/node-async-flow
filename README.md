@@ -28,7 +28,7 @@ Here comes the `node-flow`.
 ## Installation
 
 ```bash
-npm install node-flow --save
+npm install evshiron/node-flow --save
 ```
 
 ## Examples
