@@ -1,41 +1,102 @@
 # node-flow
 
-A utility function which enables async flow using Generator/yield. Works best with `--harmony-destructuring` flag.
+An aggressive async flow solution for node.js 4.x+.
+
+`--harmony-destructuring` and `--harmony-rest-parameters` flags are required, which should be completed or to be completed at the moment.
+
+## Why?
+
+node.js is excellent for it's advanced support for new standards. But it's been a headache as there are callbacks everywhere and it's hard to compose logic between them.
+
+Peoples have been attempting to solve this situation for a long time:
+
+The `async` provides handy utility functions to chain things together, along with a central error handing mechanism. It saves some nested callbacks but doesn't solve the problem.
+
+There are also many Promise implementations, like `q` and `bluebird`. I personally dislike Promises because it's a standard which makes things harder: everything is in chainable callbacks and now we have a nice constructor and resolve and reject and then and catch, wow!
+
+The `co` is the widely used generator-based solution for the callback hells. It's similar to the async/await standard and use Promises. To be used with `co`, everything should be Promises or "thunkified", which is another story.
+
+Here comes the `node-flow`.
+
+## Features
+
+* No wrapper needed for existing code (compared to `new Promise` and `thunkify`)
+* No need to pass variables every next step
+* Async in native loops
+* In place error handling (if error is solvable let's continue)
 
 ## Installation
 
 ```bash
-npm install evshiron/node-flow --save
+npm install node-flow --save
 ```
 
 ## Examples
 
-See [examples](./examples/).
+See [examples](./examples/), [tests](./tests/), [nwjs-download](https://github.com/evshiron/nwjs-download) and [nwjs-builder](https://github.com/evshiron/nwjs-builder) :)
 
-### Sleep
+Try `node-flow` on: [es6console](http://es6console.com/io1tpu0j/).
+
+Some code snippets:
 
 ```javascript
 
-const Flow = require('flow');
+const { exists, readFile } = require('fs');
 
+const Flow = require('node-flow');
+
+// Sleep 10 seconds.
 Flow(function*(cb) {
+  console.log('now:', Date.now());
+  for(let i = 0; i < 10; i++) {
+    yield setTimeout(cb.single, 1000);
+  }
+  console.log('now:', Date.now());
+});
 
-    console.log('now', Date.now());
+// Async check file exists and do something.
+Flow(function*(cb) {
+  if(yield exists('package.json', cb.single)) {
+    console.log('File exists.');
+  }
+});
 
-    yield setTimeout(cb, 1000);
-    console.log('now', Date.now());
-
-    yield setTimeout(cb, 1000);
-    console.log('now', Date.now());
+// Async read file and parse JSON.
+Flow(function*(cb) {
+  var [err, data] = yield readFile('package.json', { encoding: 'utf-8' }, cb.expect(2));
+  if(err) return console.error(err);
+  var json = JSON.parse(data);
+  
+  // or, in single line.
+  var [err, json] = yield readFile('package.json', { encoding: 'utf-8' }, (err, data) => err ? cb.expect(2)(err) : cb.expect(2)(null, JSON.parse(data));
+  if(err) return console.error(err);
+  
+  // or, use fs-extra.
+  var [err, json] = yield require('fs-extra').readJson('package.json', cb.expect(2));
+  if(err) return console.error(err);
 
 });
 
-/*
-Output:
-now 1459252138648
-now 1459252139656
-now 1459252140658
-*/
+// Destructuring.
+
+const getOneValue = (callback) => setTimeout(() => callback(true), 0);
+const getTwoValues = (callback) => setTimeout(() => callback(true, false), 0);
+const getThreeValues = (callback) => setTimeout(() => callback(true, false, null), 0);
+
+Flow(function*(cb) {
+  var x = yield getOneValue(cb.single);
+  // x == true.
+  var x = yield getOneValue(cb.expect(1));
+  // x == [true].
+  var [x] = yield getOneValue(cb.expect(1));
+  // x == true.
+  var [x, y] = yield getTwoValues(cb.expect(1));
+  // x == true, y == undefined.
+  var [x, y] = yield getTwoValues(cb.expect(2));
+  // x == true, y == false.
+  var {z, y, x} = yield getThreeValues(cb.map('x', 'y', 'z'));
+  // x == true, y == false, z == null.
+});
 
 ```
 
