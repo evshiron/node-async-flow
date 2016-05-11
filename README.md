@@ -35,8 +35,6 @@ npm install evshiron/node-flow --save
 
 See [examples](./examples/), [tests](./tests/), [nwjs-download](https://github.com/evshiron/nwjs-download) and [nwjs-builder](https://github.com/evshiron/nwjs-builder) :)
 
-Try `node-flow` on: [es6console](http://es6console.com/io1tpu0j/).
-
 Some code snippets:
 
 ```javascript
