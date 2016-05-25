@@ -2,7 +2,11 @@
 
 An aggressive async flow solution for node.js 4.x+.
 
-`--harmony-destructuring` and `--harmony-rest-parameters` flags are required, which should be completed or to be completed at the moment.
+Generators are required.
+
+Enable `--harmony-destructuring` and `--harmony-rest-parameters` if necessary.
+
+Also works with `babel` with `babel-polyfill` enabled.
 
 ## Why?
 
@@ -64,11 +68,11 @@ Flow(function*(cb) {
   var [err, data] = yield readFile('package.json', { encoding: 'utf-8' }, cb.expect(2));
   if(err) return console.error(err);
   var json = JSON.parse(data);
-  
+
   // or, in single line.
   var [err, json] = yield readFile('package.json', { encoding: 'utf-8' }, (err, data) => err ? cb.expect(2)(err) : cb.expect(2)(null, JSON.parse(data));
   if(err) return console.error(err);
-  
+
   // or, use fs-extra.
   var [err, json] = yield require('fs-extra').readJson('package.json', cb.expect(2));
   if(err) return console.error(err);
