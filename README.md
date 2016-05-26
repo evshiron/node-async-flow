@@ -32,7 +32,7 @@ Here comes the `node-flow`.
 ## Installation
 
 ```bash
-npm install evshiron/node-flow --save
+npm install @evshiron/node-flow --save
 ```
 
 ## Examples
@@ -45,7 +45,7 @@ Some code snippets:
 
 const { exists, readFile } = require('fs');
 
-const Flow = require('node-flow');
+const Flow = require('@evshiron/node-flow');
 
 // Sleep 10 seconds.
 Flow(function*(cb) {
