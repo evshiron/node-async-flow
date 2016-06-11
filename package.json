@@ -1,6 +1,6 @@
 {
-  "name": "@evshiron/node-flow",
-  "version": "1.2.0",
+  "name": "node-async-flow",
+  "version": "1.2.1",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evshiron/node-flow.git"
+    "url": "git+https://github.com/evshiron/node-async-flow.git"
   },
   "author": "evshiron",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/evshiron/node-flow/issues"
+    "url": "https://github.com/evshiron/node-async-flow/issues"
   },
-  "homepage": "https://github.com/evshiron/node-flow#readme",
+  "homepage": "https://github.com/evshiron/node-async-flow#readme",
   "devDependencies": {
     "tape": "^4.5.1"
   },

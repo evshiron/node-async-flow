@@ -1,4 +1,4 @@
-# node-flow
+# node-async-flow
 
 An aggressive async flow solution for node.js 4.x+.
 
@@ -20,7 +20,7 @@ There are also many Promise implementations, like `q` and `bluebird`. I personal
 
 The `co` is the widely used generator-based solution for the callback hells. It's similar to the async/await standard and use Promises. To be used with `co`, everything should be Promises or "thunkified", which is another story.
 
-Here comes the `node-flow`.
+Here comes the `node-async-flow`.
 
 ## Features
 
@@ -32,7 +32,7 @@ Here comes the `node-flow`.
 ## Installation
 
 ```bash
-npm install @evshiron/node-flow --save
+npm install node-async-flow --save
 ```
 
 ## Examples
@@ -45,7 +45,7 @@ Some code snippets:
 
 const { exists, readFile } = require('fs');
 
-const Flow = require('@evshiron/node-flow');
+const Flow = require('node-async-flow');
 
 // Sleep 10 seconds.
 Flow(function*(cb) {
