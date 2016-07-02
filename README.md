@@ -1,12 +1,8 @@
 # node-async-flow
 
-An aggressive async flow solution for node.js 4.x+.
+An aggressive async flow solution for node.js.
 
-Generators are required.
-
-Enable `--harmony-destructuring` and `--harmony-rest-parameters` if necessary.
-
-Also works with `babel` with `babel-polyfill` enabled.
+The support for Generator is required.
 
 ## Why?
 
