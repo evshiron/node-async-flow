@@ -10,13 +10,13 @@ node.js is excellent for it's advanced support for new standards. But it's been 
 
 Peoples have been attempting to solve this situation for a long time:
 
-The `async` provides handy utility functions to chain things together, along with a central error handing mechanism. It saves some nested callbacks but doesn't solve the problem.
+`async` provides handy utility functions to chain things together, along with a central error handing mechanism. It saves some nested callbacks but doesn't solve the problem.
 
 There are also many Promise implementations, like `q` and `bluebird`. I personally dislike Promises because it's a standard which makes things harder: everything is in chainable callbacks and now we have a nice constructor and resolve and reject and then and catch, wow!
 
-The `co` is the widely used generator-based solution for the callback hells. It's similar to the async/await standard and use Promises. To be used with `co`, everything should be Promises or "thunkified", which is another story.
+`co` is the widely used Generator-based solution for the callback hells. It's similar to the async/await standard and use Promises. To be used with `co`, everything should be Promises or "thunkified", which is another story.
 
-Here comes the `node-async-flow`.
+Here comes `node-async-flow`.
 
 ## Features
 
@@ -97,6 +97,11 @@ Flow(function*(cb) {
 });
 
 ```
+
+## Caveats
+
+* Weird things happen when yielding between multi-context environments like nw.js.
+* Everything is returned into a single scope, bringing pains when using `const` and `destructuring`.
 
 ## License
 
