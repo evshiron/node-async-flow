@@ -4,6 +4,8 @@ An aggressive async flow solution for node.js.
 
 The support for Generator is required.
 
+**WARNING: I am using `bluebird` now and I admit that this project is somewhat short-sighted so DO NOT use it in your production.**
+
 ## Why?
 
 node.js is excellent for it's advanced support for new standards. But it's been a headache as there are callbacks everywhere and it's hard to compose logic between them.
